@@ -1,10 +1,7 @@
 import datetime
-import json
 import os
-from collections import OrderedDict
 from urllib import parse
 import polars as pl
-#from urllib3 import u
 from matplotlib import pyplot as plt
 import requests
 import seaborn as sns
@@ -31,7 +28,6 @@ def get_noaa_data(station_code):
                                                    'stations': station_code,
                                                    'startDate': '1800-01-01',
                                                    'endDate': datetime.date.today(),
-                                                   #'dataTypes': 'TAVG',
                                                    'format': 'csv',
                                                    'includeStationName':'true',
                                                    'units': 'metric'})
@@ -39,29 +35,27 @@ def get_noaa_data(station_code):
     print('[INFO] sending request', request_url)
 
     response = requests.get(request_url)
-    json_string = ""
+    response_string = ""
     if response.status_code == 200:
-         json_string = response.content.decode().replace(' ', '')
+         response_string = response.content.decode().replace(' ', '')
     else:
         print('[WARNING] Response code:', response.status_code)
 
     response.close()
 
     with open(temp_file_path, 'w') as file:
-        file.write(json_string)
+        file.write(response_string)
 
     return temp_file_path
 
 
 if __name__ == '__main__':
 
-    station_id = 'AYW00090001'
-    observable_column = 'TMAX_RAW'
+    station_id = 'GMM00010729'
+    observable_column = 'TMAX'
     temperature_unit = 'C'
     date_format = '%Y-%m-%d'
     sns.set_context('paper')
-
-    #input_path = 'Daten/BarencburgSvalbart.csv'
 
     pl.Config.set_tbl_cols(200)
     pl.Config.set_tbl_width_chars(2048)
@@ -163,7 +157,6 @@ if __name__ == '__main__':
     elif observable_column in ['TMAX_RAW', 'TMIN_RAW', 'TAVG_RAW']:
         plt.xlabel('Jahr')
         plt.scatter(x=rawdata['date'], y=rawdata[observable_column.replace('_RAW', '')])
-
 
     plt.grid()
     plt.show()
