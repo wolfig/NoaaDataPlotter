@@ -51,8 +51,8 @@ def get_noaa_data(station_code):
 
 if __name__ == '__main__':
 
-    station_id = 'GMM00010729'
-    observable_column = 'TMAX'
+    station_id = 'AYW00090001'
+    observable_column = 'TMIN_RAW'
     temperature_unit = 'C'
     date_format = '%Y-%m-%d'
     sns.set_context('paper')
