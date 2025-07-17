@@ -1,4 +1,4 @@
-% This file contains an extracted local summary of land-surface
+x% This file contains an extracted local summary of land-surface
 % temperature results produced by the Berkeley Earth averaging
 % method for the location:
 %
